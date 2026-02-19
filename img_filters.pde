@@ -1,10 +1,9 @@
 PImage centreImg, centreImgMenuCopy, originalImg;
 int x, y, i, j;
 int imgDimensions = 700;
-boolean brushFlag;
+boolean brushFlag, drawImgFlag;
 
 void setup() {
-  background(0);
   size (700, 800);
   centreImg = loadImage("challengers.jpg"); // for the brushStroke and later application of filters - the central image
   centreImgMenuCopy = loadImage("challengers.jpg"); // for the menu thumbnails
@@ -25,6 +24,8 @@ void draw() {
   if (brushFlag) {
     brushStrokeRender();
   } else {
+    if (drawImgFlag)
+      image(centreImg, 0, 0);
     drawMenu();
   }
 }
@@ -70,6 +71,7 @@ void keyPressed() {
     code++;
   }
   if (key == BACKSPACE) {
+    brushFlag = false;
     selectInput("Select a file to process:", "fileSelected");
   }
 }
@@ -88,13 +90,13 @@ void updateImages(String newImg) {
   centreImgMenuCopy = loadImage(newImg);
   originalImg = loadImage(newImg);
   centreImg.resize(0, 700);
-  circle(width/2,height/2,30);
+  drawImgFlag = true;
   redraw();
-  
 }
 
 void drawMenu() {
   noLoop();
+  //clear();
   centreImgMenuCopy.resize(0, 100);
   originalImg.resize(0, 100); // - REMEBEER TO RESIZE IMAGE BACK IF NEEDED
 
