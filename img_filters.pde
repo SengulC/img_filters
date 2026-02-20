@@ -27,7 +27,8 @@ void draw() {
     brushStrokeRender();
   } else {
     if (drawImgFlag) {
-      thresholding(centreImg, true, 125);
+      centreImg = halftoning(centreImg);
+      //thresholding(centreImg, false, 125);
       image(centreImg, 0, 0);
     }
     drawMenu();

@@ -1,3 +1,48 @@
+PImage halftoning (PImage img) {
+  PImage tempImg = img.copy(); // create copy of img to enlarge
+  tempImg.resize(imgDimensions, imgDimensions);
+  tempImg.loadPixels();
+  // create output img to edit pixels on and return
+  PImage outputImg = createImage(imgDimensions*2, imgDimensions*2, RGB);
+  
+  // iterate over original image dimensions in tempImg, but write to outputImg with enlarged workspace
+  for (int x=0; x < imgDimensions; x++) {
+    for (int y=0; y < imgDimensions; y++) {
+      color curPixel = tempImg.get(x, y);
+      if (brightness(curPixel) > 200) {
+        outputImg.set(x*2, y*2, color(255));
+        outputImg.set(x*2+1, y*2, color(255));
+        outputImg.set(x*2, y*2+1, color(255));
+        outputImg.set(x*2+1, y*2+1, color(255));
+      } else if (200 > brightness(curPixel) && brightness(curPixel)> 150) {
+        outputImg.set(x*2, y*2, color(0));
+        outputImg.set(x*2+1, y*2, color(255));
+        outputImg.set(x*2, y*2+1, color(255));
+        outputImg.set(x*2+1, y*2+1, color(255));
+      } else if (150 > brightness(curPixel) && brightness(curPixel) > 100) {
+        outputImg.set(x*2, y*2, color(0));
+        outputImg.set(x*2+1, y*2, color(255));
+        outputImg.set(x*2, y*2+1, color(0));
+        outputImg.set(x*2+1, y*2+1, color(255));
+      } else if (100 > brightness(curPixel) && brightness(curPixel) > 50) {
+        outputImg.set(x*2, y*2, color(0));
+        outputImg.set(x*2+1, y*2, color(0));
+        outputImg.set(x*2, y*2+1, color(255));
+        outputImg.set(x*2+1, y*2+1, color(0));
+      } else {
+        outputImg.set(x*2, y*2, color(0));
+        outputImg.set(x*2+1, y*2, color(0));
+        outputImg.set(x*2, y*2+1, color(0));
+        outputImg.set(x*2+1, y*2+1, color(0));
+      }
+    }
+  }
+
+  // size output img back down
+  outputImg.resize(0, imgDimensions);
+  return outputImg;
+}
+
 void thresholding(PImage img, boolean multi, int T) {
   img.loadPixels();
   if (!multi) {
