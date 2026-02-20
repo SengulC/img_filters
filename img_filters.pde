@@ -10,7 +10,9 @@ void setup() {
   originalImg = loadImage("challengers.jpg"); // for keeping a record of original image pixels - reset filters
   centreImg.resize(0, 700);
 
-  brushFlag = true; // SET ME TO FALSE FOR FASTER RENDERING
+  brushFlag = false; // SET ME TO FALSE FOR FASTER RENDERING
+  if (!brushFlag)
+    drawImgFlag = true; // FOR TESTING PURPOSES
   if (brushFlag) {
     frameRate(1080);
     x=0; // x,y, pointers going from left-top
@@ -24,8 +26,10 @@ void draw() {
   if (brushFlag) {
     brushStrokeRender();
   } else {
-    if (drawImgFlag)
+    if (drawImgFlag) {
+      thresholding(centreImg, 125);
       image(centreImg, 0, 0);
+    }
     drawMenu();
   }
 }
@@ -116,7 +120,7 @@ void drawMenu() {
 
   // filter 4
   centreImgMenuCopy = originalImg.copy();
-  centreImgMenuCopy.filter(THRESHOLD);
+  thresholding(centreImgMenuCopy, 125);
   image(centreImgMenuCopy, 300, imgDimensions);
 
   // filter 5

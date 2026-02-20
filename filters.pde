@@ -1,3 +1,15 @@
+void thresholding(PImage img, int T) {
+  img.loadPixels();
+  for (int i=0; i< img.pixels.length; i++) {
+    print();
+    if (brightness(img.pixels[i]) > T)
+      img.pixels[i] = color(255);
+    else
+      img.pixels[i] = color(0);
+  }
+  img.updatePixels();
+}
+
 void rgbScan (PImage img, String rgb) {
   color newColor = color(0, 0, 0);
   img.loadPixels();
