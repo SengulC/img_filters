@@ -1,4 +1,11 @@
-PImage halftoning (PImage img) {
+//void subtract (PImage img1, PImage img2) {
+//  PImage outputImg = createImage(imgDimensions, imgDimensions, RGB);
+//  for (int i=0; i<outputImg.pixels.length; i++) {
+//    outputImg[i] = img1[i] - img2[i];
+//  }
+//}
+
+PImage halftoning (PImage img, int outputDim) {
   PImage tempImg = img.copy(); // create copy of img to enlarge
   tempImg.resize(imgDimensions, imgDimensions);
   tempImg.loadPixels();
@@ -39,7 +46,7 @@ PImage halftoning (PImage img) {
   }
 
   // size output img back down
-  outputImg.resize(0, imgDimensions);
+  outputImg.resize(0, outputDim);
   return outputImg;
 }
 

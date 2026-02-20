@@ -2,6 +2,7 @@ PImage centreImg, centreImgMenuCopy, originalImg;
 int x, y, i, j;
 int imgDimensions = 700;
 boolean brushFlag, drawImgFlag;
+Particle[] brushStrokes;
 
 void setup() {
   size (700, 800);
@@ -10,7 +11,14 @@ void setup() {
   originalImg = loadImage("challengers.jpg"); // for keeping a record of original image pixels - reset filters
   centreImg.resize(0, 700);
 
-  brushFlag = false; // SET ME TO FALSE FOR FASTER RENDERING
+  // particle setup
+  brushStrokes = new Particle[30];
+  for (int i=0; i<30; i++)
+  {
+    brushStrokes[i] = new Particle(300, 200, random(-10, 10), random(-10, 10), 10, color(255));
+  }
+
+  brushFlag = true; // SET ME TO FALSE FOR FASTER RENDERING
   if (!brushFlag)
     drawImgFlag = true; // FOR TESTING PURPOSES
   if (brushFlag) {
@@ -24,43 +32,19 @@ void setup() {
 
 void draw() {
   if (brushFlag) {
-    brushStrokeRender();
+    //brushStrokeRender();
+    for (int i=0; i<30; i++)
+    {
+      brushStrokes[i].render();
+      brushStrokes[i].update();
+    }
   } else {
+    noLoop();
     if (drawImgFlag) {
-      centreImg = halftoning(centreImg);
-      //thresholding(centreImg, false, 125);
+      //centreImg = halftoning(centreImg, imgDimensions);
       image(centreImg, 0, 0);
     }
     drawMenu();
-  }
-}
-
-void brushStrokeRender() {
-  if (j < y-20) { // once two pointers roughly meet turn this rendering off
-    brushFlag = false;
-  }
-
-  noStroke();
-  float randomDia = random(5, 30);
-
-  color cStart = centreImg.get(x, y);
-  fill(cStart);
-  circle(x, y, randomDia);
-
-  color cEnd = centreImg.get(i, j);
-  fill(cEnd);
-  circle(i, j, randomDia);
-
-  x++;
-  i--;
-
-  if (x == imgDimensions) {
-    x=0;
-    y+=15; // has to be big enough to continue off of circle drawn on prev line
-  }
-  if (i == 0) {
-    i=imgDimensions;
-    j-=15;
   }
 }
 
@@ -100,8 +84,6 @@ void updateImages(String newImg) {
 }
 
 void drawMenu() {
-  noLoop();
-  //clear();
   centreImgMenuCopy.resize(0, 100);
   originalImg.resize(0, 100); // - REMEBEER TO RESIZE IMAGE BACK IF NEEDED
 
@@ -126,7 +108,7 @@ void drawMenu() {
 
   // filter 5
   centreImgMenuCopy = originalImg.copy();
-  centreImgMenuCopy.filter(BLUR);
+  centreImgMenuCopy = halftoning(centreImgMenuCopy, 100);
   image(centreImgMenuCopy, 400, imgDimensions);
 
   // filter 6
