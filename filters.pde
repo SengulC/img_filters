@@ -1,13 +1,30 @@
-void thresholding(PImage img, int T) {
+void thresholding(PImage img, boolean multi, int T) {
   img.loadPixels();
-  for (int i=0; i< img.pixels.length; i++) {
-    print();
-    if (brightness(img.pixels[i]) > T)
-      img.pixels[i] = color(255);
-    else
-      img.pixels[i] = color(0);
+  if (!multi) {
+    for (int i=0; i< img.pixels.length; i++) {
+      if (brightness(img.pixels[i]) > T)
+        img.pixels[i] = color(255);
+      else
+        img.pixels[i] = color(0);
+    }
+  } else {
+    for (int i=0; i< img.pixels.length; i++) {
+      color curPixel = img.pixels[i];
+      if (brightness(curPixel) > 200) {
+        curPixel = color(255);
+      } else if (brightness(curPixel) > 150) {
+        curPixel = color(200);
+      } else if (brightness(curPixel) > 100) {
+        curPixel = color(150);
+      } else if (brightness(curPixel) > 50) {
+        curPixel = color(50);
+      } else {
+        curPixel = color(0);
+      }
+      img.pixels[i] = curPixel;
+    }
+    img.updatePixels();
   }
-  img.updatePixels();
 }
 
 void rgbScan (PImage img, String rgb) {

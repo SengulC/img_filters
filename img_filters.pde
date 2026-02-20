@@ -27,7 +27,7 @@ void draw() {
     brushStrokeRender();
   } else {
     if (drawImgFlag) {
-      thresholding(centreImg, 125);
+      thresholding(centreImg, true, 125);
       image(centreImg, 0, 0);
     }
     drawMenu();
@@ -120,7 +120,7 @@ void drawMenu() {
 
   // filter 4
   centreImgMenuCopy = originalImg.copy();
-  thresholding(centreImgMenuCopy, 125);
+  thresholding(centreImgMenuCopy, false, 125);
   image(centreImgMenuCopy, 300, imgDimensions);
 
   // filter 5
