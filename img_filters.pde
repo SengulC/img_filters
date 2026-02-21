@@ -3,9 +3,15 @@ int x, y, i, j;
 int imgDimensions = 700;
 boolean brushFlag, drawImgFlag;
 Particle[] brushStrokes;
-
+File saveFolder;
+int sizeOfFolder;
 void setup() {
   size (700, 800);
+
+  String path = dataPath("savedImages/");
+  saveFolder = new File(path);
+  sizeOfFolder = 0;
+
   centreImg = loadImage("challengers.jpg"); // for the brushStroke and later application of filters - the central image
   centreImgMenuCopy = loadImage("challengers.jpg"); // for the menu thumbnails
   originalImg = loadImage("challengers.jpg"); // for keeping a record of original image pixels - reset filters
@@ -55,12 +61,15 @@ void keyPressed() {
   }
   if (key == ENTER || key == RETURN) {
     PImage capture = get(0, 0, imgDimensions*2, imgDimensions*2);
-    int code = 0;
-    capture.save("filtered-img"+code+".jpg");
-    code++;
+    // getting length of saveFolder to not overwrite any prev. captures
+    if (saveFolder.exists() && saveFolder.isDirectory()) {
+      sizeOfFolder = saveFolder.listFiles().length;
+    }
+    capture.save("./data/savedImages/filtered-img"+sizeOfFolder+".jpg");
   }
+  
   if (key == BACKSPACE) {
-    brushFlag = false;
+    //brushFlag = false;
     selectInput("Select a file to process:", "fileSelected");
   }
 }
