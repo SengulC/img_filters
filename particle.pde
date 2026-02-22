@@ -1,3 +1,5 @@
+// EXAMPLE RUSHSTROKE PARTICLE EFFECT REFACTORED
+
 class Particle
 {
   float posx, posy;

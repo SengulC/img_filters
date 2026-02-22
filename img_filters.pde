@@ -1,3 +1,5 @@
+// MAIN SETUP AND DRAW/REDRAW CODE
+
 PImage centreImg, centreImgMenuCopy, originalImg;
 int x, y, i, j;
 int imgDimensions = 700;
@@ -5,6 +7,7 @@ boolean brushFlag, drawImgFlag;
 Particle[] brushStrokes;
 File saveFolder;
 int sizeOfFolder;
+
 void setup() {
   size (700, 800);
 
@@ -52,50 +55,6 @@ void draw() {
     }
     drawMenu();
   }
-}
-
-void keyPressed() {
-  if (key == 'p' || key == 'P') {
-    brushFlag = true;
-    redraw();
-  }
-
-  if (key == TAB) {
-    brushFlag = false;
-    image(centreImg, 0, 0);
-  }
-
-  if (key == ENTER || key == RETURN) {
-    PImage capture = get(0, 0, imgDimensions*2, imgDimensions*2);
-    // getting length of saveFolder to not overwrite any prev. captures
-    if (saveFolder.exists() && saveFolder.isDirectory()) {
-      sizeOfFolder = saveFolder.listFiles().length;
-    }
-    capture.save("./data/savedImages/filtered-img"+sizeOfFolder+".jpg");
-  }
-
-  if (key == BACKSPACE) {
-    //brushFlag = false;
-    selectInput("Select a file to process:", "fileSelected");
-  }
-}
-
-void fileSelected(File selection) {
-  if (selection == null) {
-    print("Window was closed or the user hit cancel.");
-  } else {
-    String newImgPath = selection.getAbsolutePath();
-    updateImages(newImgPath);
-  }
-}
-
-void updateImages(String newImg) {
-  centreImg = loadImage(newImg);
-  centreImgMenuCopy = loadImage(newImg);
-  originalImg = loadImage(newImg);
-  centreImg.resize(0, 700);
-  drawImgFlag = true;
-  redraw();
 }
 
 void drawMenu() {

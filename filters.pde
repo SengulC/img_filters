@@ -1,3 +1,5 @@
+// FILTER FUNCTIONS
+
 //void subtract (PImage img1, PImage img2) {
 //  PImage outputImg = createImage(imgDimensions, imgDimensions, RGB);
 //  for (int i=0; i<outputImg.pixels.length; i++) {
