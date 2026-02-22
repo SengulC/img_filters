@@ -29,7 +29,7 @@ void setup() {
     brushStrokes[i] = new Particle(300, 200, random(-10, 10), random(-10, 10), 10, color(255));
   }
 
-  brushFlag = false; // SET ME TO FALSE FOR FASTER RENDERING
+  brushFlag = true; // SET ME TO FALSE FOR FASTER RENDERING
   if (!brushFlag)
     drawImgFlag = true; // FOR TESTING PURPOSES
   if (brushFlag) {

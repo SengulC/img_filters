@@ -1,4 +1,4 @@
-// FILTER FUNCTIONS //<>// //<>//
+// FILTER FUNCTIONS
 
 //void subtract (PImage img1, PImage img2) {
 //  PImage outputImg = createImage(imgDimensions, imgDimensions, RGB);
@@ -9,25 +9,32 @@
 
 PImage basicToonShade(PImage img) {
   PImage outputImg = createImage(imgDimensions, imgDimensions, RGB);
+
   PImage blurredImg = img.copy();
   blurredImg.filter(BLUR, 2);
-  PImage slightlyBlurredImg = img.copy();
-  slightlyBlurredImg.filter(BLUR, 0.3);
-  //PImage edgedImg = laplacianEdgeDetection(slightlyBlurredImg);
-  PImage posterizedImg = posterize(blurredImg, 6);
+
+  PImage posterizedImg = blurredImg.copy();
+  posterizedImg = posterize(posterizedImg, 6);
+  posterizedImg.updatePixels();
+
+  //centreImg.filter(BLUR, 0.3);
 
   for (int x = 0; x < img.width; x++) {
     for (int y = 0; y < img.height; y++) {
       float edge = laplac8(img, x, y);
+      // multiply blend w/ thresholding,
+      // change denominator to change level of edge accepted
+      float t = constrain(edge/45.0, 0, 0.5);
       color post = posterizedImg.get(x, y);
-      outputImg.set(x, y, color(
-        // no under/overflow
-        constrain(red(post) - edge, 0, 255),
-        constrain(green(post) - edge, 0, 255),
-        constrain(blue(post)  - edge, 0, 255)
+      outputImg.set(x, y,
+        color(
+        red(post)*(1-t),
+        green(post)*(1-t),
+        blue(post)*(1-t)
         ));
     }
   }
+
   outputImg.updatePixels();
   return outputImg;
 }
