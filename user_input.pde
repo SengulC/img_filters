@@ -5,32 +5,31 @@
 void mousePressed() {
   // if in y region of menu
   if (mouseY > 700) {
+    centreImg = originalImg.copy();
+    loop();
     if (mouseX < 100) {
-      //filter1();
-      print(1);
-    }
-    else if (mouseX < 200) {
-      //filter2();
-      print(2);
-    }
-    else if (mouseX < 300) {
-      //filter3();
-      print(3);
-    }
-    else if (mouseX < 400) {
-      //filter4();
+      //filter1
+      rgbScan(centreImg, "r");
+      image(centreImg, 0, 0);
+    } else if (mouseX < 200) {
+      //filter2
+      rgbScan(centreImg, "g");
+      image(centreImg, 0, 0);
+    } else if (mouseX < 300) {
+      //filter3
+      rgbScan(centreImg, "b");
+      image(centreImg, 0, 0);
+    } else if (mouseX < 400) {
+      //filter4
       print(4);
-    }
-    else if (mouseX < 500) {
-      //filter5();
+    } else if (mouseX < 500) {
+      //filter5
       print(5);
-    }
-    else if (mouseX < 600) {
-      //filter6();
+    } else if (mouseX < 600) {
+      //filter6
       print(6);
-    }
-    else if (mouseX < 700) {
-      //filter7();
+    } else if (mouseX < 700) {
+      //filter7
       print(7);
     }
   }
@@ -75,7 +74,8 @@ void updateImages(String newImg) {
   centreImg = loadImage(newImg);
   centreImgMenuCopy = loadImage(newImg);
   originalImg = loadImage(newImg);
-  centreImg.resize(0, 700);
+  originalImgMenuCopy = loadImage(newImg);
+  centreImg.resize(0, 700); originalImg.resize(0, 700);
   drawImgFlag = true;
   redraw();
 }

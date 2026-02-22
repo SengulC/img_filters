@@ -1,6 +1,6 @@
 // MAIN SETUP AND DRAW/REDRAW CODE
 
-PImage centreImg, centreImgMenuCopy, originalImg;
+PImage centreImg, centreImgMenuCopy, originalImg, originalImgMenuCopy;
 int x, y, i, j;
 int imgDimensions = 700;
 boolean brushFlag, drawImgFlag;
@@ -18,7 +18,9 @@ void setup() {
   centreImg = loadImage("challengers.jpg"); // for the brushStroke and later application of filters - the central image
   centreImgMenuCopy = loadImage("challengers.jpg"); // for the menu thumbnails
   originalImg = loadImage("challengers.jpg"); // for keeping a record of original image pixels - reset filters
+  originalImgMenuCopy = loadImage("challengers.jpg");
   centreImg.resize(0, 700);
+  originalImg.resize(0, 700);
 
   // particle setup
   brushStrokes = new Particle[30];
@@ -59,7 +61,7 @@ void draw() {
 
 void drawMenu() {
   centreImgMenuCopy.resize(0, 100);
-  originalImg.resize(0, 100); // - REMEBEER TO RESIZE IMAGE BACK IF NEEDED
+  originalImgMenuCopy.resize(0, 100); // - REMEBEER TO RESIZE IMAGE BACK IF NEEDED
   centreImgMenuCopy.loadPixels();
 
   // filter 1
@@ -67,33 +69,33 @@ void drawMenu() {
   image(centreImgMenuCopy, 0, imgDimensions);
 
   // filter 2
-  centreImgMenuCopy = originalImg.copy();
+  centreImgMenuCopy = originalImgMenuCopy.copy();
   rgbScan(centreImgMenuCopy, "g");
   image(centreImgMenuCopy, 100, imgDimensions);
 
   // filter 3
-  centreImgMenuCopy = originalImg.copy();
+  centreImgMenuCopy = originalImgMenuCopy.copy();
   rgbScan(centreImgMenuCopy, "b");
   image(centreImgMenuCopy, 200, imgDimensions);
 
   // filter 4
-  centreImgMenuCopy = originalImg.copy();
-  //centreImgMenuCopy = thresholding(centreImgMenuCopy, false, 125);
+  centreImgMenuCopy = originalImgMenuCopy.copy();
+  centreImgMenuCopy = thresholding(centreImgMenuCopy, false, 125);
   image(centreImgMenuCopy, 300, imgDimensions);
 
   // filter 5
-  centreImgMenuCopy = originalImg.copy();
+  centreImgMenuCopy = originalImgMenuCopy.copy();
   centreImgMenuCopy = halftoning(centreImgMenuCopy, 100);
   image(centreImgMenuCopy, 400, imgDimensions);
 
   // filter 6
-  centreImgMenuCopy = originalImg.copy();
+  centreImgMenuCopy = originalImgMenuCopy.copy();
   grayscale(centreImgMenuCopy, 3);
   image(centreImgMenuCopy, 500, imgDimensions);
 
   // filter 7
-  centreImgMenuCopy = originalImg.copy();
+  centreImgMenuCopy = originalImgMenuCopy.copy();
   invert(centreImgMenuCopy);
   image(centreImgMenuCopy, 600, imgDimensions);
-  centreImgMenuCopy = originalImg.copy();
+  centreImgMenuCopy = originalImgMenuCopy.copy();
 }
