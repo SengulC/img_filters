@@ -13,11 +13,11 @@ void mousePressed() {
       image(centreImg, 0, 0);
     } else if (mouseX < 200) {
       //filter2
-      rgbScan(centreImg, "g");
+      centreImg = basicToonShade(centreImg);
       image(centreImg, 0, 0);
     } else if (mouseX < 300) {
       //filter3
-      rgbScan(centreImg, "b");
+      centreImg = laplacianEdgeDetection(centreImg);
       image(centreImg, 0, 0);
     } else if (mouseX < 400) {
       //filter4
@@ -31,6 +31,8 @@ void mousePressed() {
     } else if (mouseX < 700) {
       //filter7
       print(7);
+    } else {
+      centreImg = originalImg.copy();
     }
   }
 }
@@ -75,7 +77,8 @@ void updateImages(String newImg) {
   centreImgMenuCopy = loadImage(newImg);
   originalImg = loadImage(newImg);
   originalImgMenuCopy = loadImage(newImg);
-  centreImg.resize(0, 700); originalImg.resize(0, 700);
+  centreImg.resize(0, 700);
+  originalImg.resize(0, 700);
   drawImgFlag = true;
   redraw();
 }

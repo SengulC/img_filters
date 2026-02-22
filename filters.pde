@@ -7,6 +7,83 @@
 //  }
 //}
 
+PImage basicToonShade(PImage img) {
+  PImage outputImg = createImage(imgDimensions, imgDimensions, RGB);
+
+  PImage blurredImg = img.copy();
+  blurredImg.filter(BLUR, 5);
+
+  PImage posterizedImg = blurredImg.copy();
+  posterizedImg = posterize(posterizedImg, 25);
+  posterizedImg.updatePixels();
+
+  //centreImg.filter(BLUR, 0.3);
+
+  for (int x = 0; x < img.width; x++) {
+    for (int y = 0; y < img.height; y++) {
+      float edge = laplac8(img, x, y);
+      // multiply blend w/ thresholding,
+      // change denominator to change level of edge accepted
+      float t = constrain(edge/45.0, 0, 0.5);
+      color post = posterizedImg.get(x, y);
+      outputImg.set(x, y,
+        color(
+        red(post)*(1-t),
+        green(post)*(1-t),
+        blue(post)*(1-t)
+        ));
+    }
+  }
+
+  outputImg.updatePixels();
+  return outputImg;
+}
+
+PImage posterize(PImage img, int levels) {
+  PImage outputImg = img.copy();
+  outputImg.loadPixels();
+  float factor = 255.0/(levels - 1);
+  for (int i=0; i < outputImg.pixels.length; i++) {
+    color c = img.pixels[i];
+    float r = round(red(c)/factor)*factor;
+    float g = round(green(c)/factor)*factor;
+    float b = round(blue(c)/factor)*factor;
+    outputImg.pixels[i] = color(r, g, b);
+  }
+  outputImg.updatePixels();
+  return outputImg;
+}
+
+float laplac8(PImage im, int x, int y)
+{
+  return abs(brightness(im.get (x, y))
+    - (float)(
+    brightness(im.get(x+1, y))
+    + brightness(im.get(x-1, y))
+    + brightness(im.get(x, y+1))
+    + brightness(im.get(x, y-1))
+    + brightness(im.get(x+1, y+1))
+    + brightness(im.get(x-1, y-1))
+    + brightness(im.get(x-1, y+1))
+    + brightness(im.get(x+1, y-1))
+    )/8.0);
+}
+
+PImage laplacianEdgeDetection(PImage img) {
+  PImage outputImg = createImage(imgDimensions, imgDimensions, RGB);
+
+  for (int i=0; i<img.width; i++) {
+    for (int j=0; j<img.height; j++) {
+      outputImg.set(i, j, color(laplac8(img, i, j)));
+    }
+  }
+
+  // threshold and invert
+  outputImg = invert(outputImg);
+  outputImg = thresholding(outputImg, false, 225);
+  return outputImg;
+}
+
 PImage halftoning (PImage img, int outputDim) {
   PImage tempImg = img.copy(); // create copy of img to enlarge
   tempImg.resize(imgDimensions, imgDimensions);
@@ -52,7 +129,7 @@ PImage halftoning (PImage img, int outputDim) {
   return outputImg;
 }
 
-PImage thresholding(PImage img, boolean multi, int T) {
+PImage thresholding(PImage img, boolean multi, float T) {
   PImage out = new PImage(img.width, img.height, RGB);
   img.loadPixels();
   if (!multi) {
@@ -88,13 +165,13 @@ void rgbScan (PImage img, String rgb) {
   img.loadPixels();
   for (int i=0; i< img.pixels.length; i++) {
     switch(rgb) {
-    case "r":
+    case "r" :
       newColor = color (red(img.pixels[i]), 0, 0);
       break;
-    case "g":
+    case "g" :
       newColor = color (0, green(img.pixels[i]), 0);
       break;
-    case "b":
+    case "b" :
       newColor = color (0, 0, blue(img.pixels[i]));
       break;
     }
@@ -112,8 +189,9 @@ void grayscale (PImage img, int degree) {
   img.updatePixels();
 }
 
-void invert (PImage img) {
+PImage invert (PImage img) {
   for (int i=0; i< img.pixels.length; i++) {
     img.pixels[i] = color(255-red(img.pixels[i]), 255-green(img.pixels[i]), 255 - blue(img.pixels[i]));
   }
+  return img;
 }

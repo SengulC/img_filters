@@ -29,7 +29,7 @@ void setup() {
     brushStrokes[i] = new Particle(300, 200, random(-10, 10), random(-10, 10), 10, color(255));
   }
 
-  brushFlag = true; // SET ME TO FALSE FOR FASTER RENDERING
+  brushFlag = false; // SET ME TO FALSE FOR FASTER RENDERING
   if (!brushFlag)
     drawImgFlag = true; // FOR TESTING PURPOSES
   if (brushFlag) {
@@ -52,7 +52,6 @@ void draw() {
   } else {
     noLoop();
     if (drawImgFlag) {
-      //centreImg = halftoning(centreImg, imgDimensions);
       image(centreImg, 0, 0);
     }
     drawMenu();
@@ -70,12 +69,12 @@ void drawMenu() {
 
   // filter 2
   centreImgMenuCopy = originalImgMenuCopy.copy();
-  rgbScan(centreImgMenuCopy, "g");
+  centreImgMenuCopy = basicToonShade(centreImgMenuCopy);
   image(centreImgMenuCopy, 100, imgDimensions);
 
   // filter 3
   centreImgMenuCopy = originalImgMenuCopy.copy();
-  rgbScan(centreImgMenuCopy, "b");
+  centreImgMenuCopy = laplacianEdgeDetection(centreImgMenuCopy);
   image(centreImgMenuCopy, 200, imgDimensions);
 
   // filter 4
@@ -95,7 +94,9 @@ void drawMenu() {
 
   // filter 7
   centreImgMenuCopy = originalImgMenuCopy.copy();
-  invert(centreImgMenuCopy);
+  centreImgMenuCopy = invert(centreImgMenuCopy);
   image(centreImgMenuCopy, 600, imgDimensions);
+
+  // reset
   centreImgMenuCopy = originalImgMenuCopy.copy();
 }
