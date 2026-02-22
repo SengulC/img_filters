@@ -21,18 +21,20 @@ void mousePressed() {
       image(centreImg, 0, 0);
     } else if (mouseX < 400) {
       //filter4
-      print(4);
+      centreImg = thresholding(centreImg, false, 125);
+      image(centreImg, 0, 0);
     } else if (mouseX < 500) {
       //filter5
-      print(5);
+      centreImg = halftoning(centreImg, imgDimensions);
+      image(centreImg, 0, 0);
     } else if (mouseX < 600) {
       //filter6
-      print(6);
+      centreImg = grayscale(centreImg, 3);
+      image(centreImg, 0, 0);
     } else if (mouseX < 700) {
       //filter7
-      print(7);
-    } else {
-      centreImg = originalImg.copy();
+      centreImg = invert(centreImg);
+      image(centreImg, 0, 0);
     }
   }
 }

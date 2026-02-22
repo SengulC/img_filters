@@ -12,19 +12,19 @@ PImage basicToonShade(PImage img) {
   PImage blurredImg = img.copy();
   blurredImg.filter(BLUR, 2);
   PImage slightlyBlurredImg = img.copy();
-  slightlyBlurredImg.filter(BLUR, 0.3);
-  //PImage edgedImg = laplacianEdgeDetection(slightlyBlurredImg);
+  slightlyBlurredImg.filter(BLUR, 0.7);
+  PImage edgedImg = laplacianEdgeDetection(slightlyBlurredImg);
   PImage posterizedImg = posterize(blurredImg, 6);
 
   for (int x = 0; x < img.width; x++) {
     for (int y = 0; y < img.height; y++) {
-      float edge = laplac8(img, x, y);
+      float edge = edgedImg.get(x, y);
       color post = posterizedImg.get(x, y);
       outputImg.set(x, y, color(
         // no under/overflow
-        constrain(red(post) - edge, 0, 255),
-        constrain(green(post) - edge, 0, 255),
-        constrain(blue(post)  - edge, 0, 255)
+        constrain(red(post) + edge, 20, 175),
+        constrain(green(post) + edge, 20, 175),
+        constrain(blue(post)  + edge, 20, 175)
         ));
     }
   }
@@ -173,18 +173,23 @@ void rgbScan (PImage img, String rgb) {
   img.updatePixels();
 }
 
-void grayscale (PImage img, int degree) {
+PImage grayscale (PImage img, int degree) {
   img.loadPixels();
+  PImage out = new PImage(img.width, img.height, RGB);
   for (int i=0; i< img.pixels.length; i++) {
     float grayVal = (red(img.pixels[i]) + green(img.pixels[i]) + blue(img.pixels[i]))/degree;
-    img.pixels[i] = color(grayVal, grayVal, grayVal);
+    out.pixels[i] = color(grayVal, grayVal, grayVal);
   }
-  img.updatePixels();
+  out.updatePixels();
+  return out;
 }
 
 PImage invert (PImage img) {
+  img.loadPixels();
+  PImage out = new PImage(img.width, img.height, RGB);
   for (int i=0; i< img.pixels.length; i++) {
-    img.pixels[i] = color(255-red(img.pixels[i]), 255-green(img.pixels[i]), 255 - blue(img.pixels[i]));
+    out.pixels[i] = color(255-red(img.pixels[i]), 255-green(img.pixels[i]), 255 - blue(img.pixels[i]));
   }
-  return img;
+  out.updatePixels();
+  return out;
 }

@@ -89,7 +89,7 @@ void drawMenu() {
 
   // filter 6
   centreImgMenuCopy = originalImgMenuCopy.copy();
-  grayscale(centreImgMenuCopy, 3);
+  centreImgMenuCopy = grayscale(centreImgMenuCopy, 3);
   image(centreImgMenuCopy, 500, imgDimensions);
 
   // filter 7
