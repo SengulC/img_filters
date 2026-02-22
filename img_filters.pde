@@ -38,7 +38,7 @@ void setup() {
 
 void draw() {
   if (brushFlag) {
-    //brushStrokeRender();
+    loop();
     for (int i=0; i<30; i++)
     {
       brushStrokes[i].render();
@@ -55,10 +55,16 @@ void draw() {
 }
 
 void keyPressed() {
+  if (key == 'p' || key == 'P') {
+    brushFlag = true;
+    redraw();
+  }
+
   if (key == TAB) {
     brushFlag = false;
     image(centreImg, 0, 0);
   }
+
   if (key == ENTER || key == RETURN) {
     PImage capture = get(0, 0, imgDimensions*2, imgDimensions*2);
     // getting length of saveFolder to not overwrite any prev. captures
@@ -67,7 +73,7 @@ void keyPressed() {
     }
     capture.save("./data/savedImages/filtered-img"+sizeOfFolder+".jpg");
   }
-  
+
   if (key == BACKSPACE) {
     //brushFlag = false;
     selectInput("Select a file to process:", "fileSelected");
@@ -95,6 +101,7 @@ void updateImages(String newImg) {
 void drawMenu() {
   centreImgMenuCopy.resize(0, 100);
   originalImg.resize(0, 100); // - REMEBEER TO RESIZE IMAGE BACK IF NEEDED
+  centreImgMenuCopy.loadPixels();
 
   // filter 1
   rgbScan(centreImgMenuCopy, "r");
@@ -112,7 +119,7 @@ void drawMenu() {
 
   // filter 4
   centreImgMenuCopy = originalImg.copy();
-  thresholding(centreImgMenuCopy, false, 125);
+  //centreImgMenuCopy = thresholding(centreImgMenuCopy, false, 125);
   image(centreImgMenuCopy, 300, imgDimensions);
 
   // filter 5
@@ -129,4 +136,5 @@ void drawMenu() {
   centreImgMenuCopy = originalImg.copy();
   invert(centreImgMenuCopy);
   image(centreImgMenuCopy, 600, imgDimensions);
+  centreImgMenuCopy = originalImg.copy();
 }

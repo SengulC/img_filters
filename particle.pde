@@ -29,6 +29,6 @@ class Particle
     
     // bounce off the sides
     if ( (posx>width) || (posx<0) ) velx = -velx;
-    if ( (posy>height) || (posy<0) ) vely = -vely;
+    if ( (posy>690) || (posy<0) ) vely = -vely;
   }
 }

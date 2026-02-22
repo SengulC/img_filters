@@ -11,7 +11,7 @@ PImage halftoning (PImage img, int outputDim) {
   tempImg.loadPixels();
   // create output img to edit pixels on and return
   PImage outputImg = createImage(imgDimensions*2, imgDimensions*2, RGB);
-  
+
   // iterate over original image dimensions in tempImg, but write to outputImg with enlarged workspace
   for (int x=0; x < imgDimensions; x++) {
     for (int y=0; y < imgDimensions; y++) {
@@ -50,14 +50,15 @@ PImage halftoning (PImage img, int outputDim) {
   return outputImg;
 }
 
-void thresholding(PImage img, boolean multi, int T) {
+PImage thresholding(PImage img, boolean multi, int T) {
+  PImage out = new PImage(img.width, img.height, RGB);
   img.loadPixels();
   if (!multi) {
     for (int i=0; i< img.pixels.length; i++) {
       if (brightness(img.pixels[i]) > T)
-        img.pixels[i] = color(255);
+        out.pixels[i] = color(255);
       else
-        img.pixels[i] = color(0);
+        out.pixels[i] = color(0);
     }
   } else {
     for (int i=0; i< img.pixels.length; i++) {
@@ -73,10 +74,11 @@ void thresholding(PImage img, boolean multi, int T) {
       } else {
         curPixel = color(0);
       }
-      img.pixels[i] = curPixel;
+      out.pixels[i] = curPixel;
     }
-    img.updatePixels();
   }
+  out.updatePixels();
+  return out;
 }
 
 void rgbScan (PImage img, String rgb) {
