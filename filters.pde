@@ -7,14 +7,14 @@
 //  }
 //}
 
-PImage basicToonShade(PImage img) {
+PImage basicToonShade(PImage img, int posterizeLvl) {
   PImage outputImg = createImage(imgDimensions, imgDimensions, RGB);
   PImage blurredImg = img.copy();
   blurredImg.filter(BLUR, 2);
   PImage slightlyBlurredImg = img.copy();
   slightlyBlurredImg.filter(BLUR, 0.7);
   PImage edgedImg = laplacianEdgeDetection(slightlyBlurredImg);
-  PImage posterizedImg = posterize(blurredImg, 6);
+  PImage posterizedImg = posterize(blurredImg, posterizeLvl);
 
   for (int x = 0; x < img.width; x++) {
     for (int y = 0; y < img.height; y++) {

@@ -29,7 +29,7 @@ void setup() {
     brushStrokes[i] = new Particle(300, 200, random(-10, 10), random(-10, 10), 10, color(255));
   }
 
-  brushFlag = true; // SET ME TO FALSE FOR FASTER RENDERING
+  brushFlag = false; // SET ME TO FALSE FOR FASTER RENDERING
   if (!brushFlag)
     drawImgFlag = true; // FOR TESTING PURPOSES
   if (brushFlag) {
@@ -50,7 +50,6 @@ void draw() {
       brushStrokes[i].update();
     }
   } else {
-    noLoop();
     if (drawImgFlag) {
       image(centreImg, 0, 0);
     }
@@ -59,6 +58,7 @@ void draw() {
 }
 
 void drawMenu() {
+  noLoop();
   centreImgMenuCopy.resize(0, 100);
   originalImgMenuCopy.resize(0, 100); // - REMEBEER TO RESIZE IMAGE BACK IF NEEDED
   centreImgMenuCopy.loadPixels();
@@ -69,7 +69,7 @@ void drawMenu() {
 
   // filter 2
   centreImgMenuCopy = originalImgMenuCopy.copy();
-  centreImgMenuCopy = basicToonShade(centreImgMenuCopy);
+  centreImgMenuCopy = basicToonShade(centreImgMenuCopy, posterizelvl);
   image(centreImgMenuCopy, 100, imgDimensions);
 
   // filter 3
