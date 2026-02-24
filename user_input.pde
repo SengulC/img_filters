@@ -1,14 +1,14 @@
 // USER INPUT VIA KEYBOARD AND MOUSE
 // SAVING/LOADING NEW IMAGE
 // CHANGING FILTERS VIA MENU CLICK
-int threshold = 125, grayval = 3, posterizelvl = 4;
+int threshold = 125, grayval = 3, posterizelvl = 3;
 boolean multithreshold;
 String[] rgbvals = {"r", "g", "b"};
 int rgbindex = 0;
 
 void mousePressed() {
   // if in y region of menu
-  loop();
+  redraw();
 
   if (mouseY > 700) {
     centreImg = originalImg.copy();
@@ -46,7 +46,7 @@ void mousePressed() {
       centreImg = grayscale(centreImg, grayval);
       image(centreImg, 0, 0);
       grayval++;
-      if (grayval > 10)
+      if (grayval > 6)
         grayval = 3;
     } else if (mouseX < 700) {
       //filter7
