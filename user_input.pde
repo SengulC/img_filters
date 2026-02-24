@@ -92,6 +92,7 @@ void fileSelected(File selection) {
 }
 
 void updateImages(String newImg) {
+  brushFlag = true;
   centreImg = loadImage(newImg);
   centreImgMenuCopy = loadImage(newImg);
   originalImg = loadImage(newImg);
