@@ -8,7 +8,7 @@ int rgbindex = 0;
 
 void mousePressed() {
   // if in y region of menu
-  redraw();
+  loop();
 
   if (mouseY > 700) {
     centreImg = originalImg.copy();

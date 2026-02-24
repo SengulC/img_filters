@@ -1,7 +1,6 @@
 // MAIN SETUP AND DRAW/REDRAW CODE
 
 PImage centreImg, centreImgMenuCopy, originalImg, originalImgMenuCopy;
-int x, y, i, j;
 int imgDimensions = 700;
 boolean brushFlag, drawImgFlag;
 Particle[] brushStrokes;
@@ -10,6 +9,7 @@ int sizeOfFolder;
 
 void setup() {
   size (700, 800);
+  frameRate(60);
 
   String path = dataPath("savedImages/");
   saveFolder = new File(path);
@@ -29,16 +29,9 @@ void setup() {
     brushStrokes[i] = new Particle(300, 200, random(-10, 10), random(-10, 10), 10, color(255));
   }
 
-  brushFlag = false; // SET ME TO FALSE FOR FASTER RENDERING
+  brushFlag = true; // SET ME TO FALSE FOR FASTER RENDERING
   if (!brushFlag)
     drawImgFlag = true; // FOR TESTING PURPOSES
-  if (brushFlag) {
-    frameRate(1080);
-    x=0; // x,y, pointers going from left-top
-    i=imgDimensions; // i,j pointers going from right-btm
-    y=10;
-    j=imgDimensions-10;
-  }
 }
 
 void draw() {
@@ -53,7 +46,7 @@ void draw() {
     if (drawImgFlag) {
       image(centreImg, 0, 0);
     }
-    drawMenu();
+    //drawMenu();
   }
 }
 
