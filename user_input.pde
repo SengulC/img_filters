@@ -99,5 +99,9 @@ void updateImages(String newImg) {
   centreImg.resize(0, 700);
   originalImg.resize(0, 700);
   drawImgFlag = true;
+  threshold = 125;
+  grayval = 3;
+  posterizelvl = 3;
+  multithreshold = false;
   redraw();
 }
