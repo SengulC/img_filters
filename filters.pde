@@ -1,4 +1,4 @@
-// FILTER FUNCTIONS //<>// //<>//
+// FILTER FUNCTIONS  //<>//
 
 //void subtract (PImage img1, PImage img2) {
 //  PImage outputImg = createImage(imgDimensions, imgDimensions, RGB);

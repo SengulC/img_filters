@@ -6,10 +6,14 @@ boolean brushFlag, drawImgFlag;
 Particle[] brushStrokes;
 File saveFolder;
 int sizeOfFolder;
+PGraphics menu;
+boolean toRenderMenu = true;
 
 void setup() {
   size (700, 800);
   frameRate(60);
+
+  menu = createGraphics(700, 100);
 
   String path = dataPath("savedImages/");
   saveFolder = new File(path);
@@ -46,50 +50,58 @@ void draw() {
     if (drawImgFlag) {
       image(centreImg, 0, 0);
     }
-    //drawMenu();
+    if (toRenderMenu) {
+      drawMenu();
+      image(menu, 0, 700);
+      toRenderMenu = false;
+    }
   }
 }
 
 void drawMenu() {
   noLoop();
+  redraw();
+  print("hi");
+  menu.beginDraw();
   centreImgMenuCopy.resize(0, 100);
   originalImgMenuCopy.resize(0, 100); // - REMEBEER TO RESIZE IMAGE BACK IF NEEDED
   centreImgMenuCopy.loadPixels();
 
   // filter 1
   rgbScan(centreImgMenuCopy, "r");
-  image(centreImgMenuCopy, 0, imgDimensions);
+  menu.image(centreImgMenuCopy, 0, 0);
 
   // filter 2
   centreImgMenuCopy = originalImgMenuCopy.copy();
   centreImgMenuCopy = basicToonShade(centreImgMenuCopy, posterizelvl);
-  image(centreImgMenuCopy, 100, imgDimensions);
+  menu.image(centreImgMenuCopy, 100, 0);
 
   // filter 3
   centreImgMenuCopy = originalImgMenuCopy.copy();
   centreImgMenuCopy = laplacianEdgeDetection(centreImgMenuCopy);
-  image(centreImgMenuCopy, 200, imgDimensions);
+  menu.image(centreImgMenuCopy, 200, 0);
 
   // filter 4
   centreImgMenuCopy = originalImgMenuCopy.copy();
   centreImgMenuCopy = thresholding(centreImgMenuCopy, false, 125);
-  image(centreImgMenuCopy, 300, imgDimensions);
+  menu.image(centreImgMenuCopy, 300, 0);
 
   // filter 5
   centreImgMenuCopy = originalImgMenuCopy.copy();
   centreImgMenuCopy = halftoning(centreImgMenuCopy, 100);
-  image(centreImgMenuCopy, 400, imgDimensions);
+  menu.image(centreImgMenuCopy, 400, 0);
 
   // filter 6
   centreImgMenuCopy = originalImgMenuCopy.copy();
   centreImgMenuCopy = grayscale(centreImgMenuCopy, 3);
-  image(centreImgMenuCopy, 500, imgDimensions);
+  menu.image(centreImgMenuCopy, 500, 0);
 
   // filter 7
   centreImgMenuCopy = originalImgMenuCopy.copy();
   centreImgMenuCopy = invert(centreImgMenuCopy);
-  image(centreImgMenuCopy, 600, imgDimensions);
+  menu.image(centreImgMenuCopy, 600, 0);
 
   // reset
   centreImgMenuCopy = originalImgMenuCopy.copy();
+  menu.endDraw();
 }

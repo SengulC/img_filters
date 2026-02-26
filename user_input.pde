@@ -92,7 +92,7 @@ void fileSelected(File selection) {
 }
 
 void updateImages(String newImg) {
-  brushFlag = true;
+  //brushFlag = true;
   centreImg = loadImage(newImg);
   centreImgMenuCopy = loadImage(newImg);
   originalImg = loadImage(newImg);
@@ -104,5 +104,6 @@ void updateImages(String newImg) {
   grayval = 3;
   posterizelvl = 3;
   multithreshold = false;
+  toRenderMenu = true;
   redraw();
 }
