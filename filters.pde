@@ -1,12 +1,5 @@
 // FILTER FUNCTIONS  //<>//
 
-//void subtract (PImage img1, PImage img2) {
-//  PImage outputImg = createImage(imgDimensions, imgDimensions, RGB);
-//  for (int i=0; i<outputImg.pixels.length; i++) {
-//    outputImg[i] = img1[i] - img2[i];
-//  }
-//}
-
 PImage basicToonShade(PImage img, int posterizeLvl) {
   PImage outputImg = createImage(imgDimensions, imgDimensions, RGB);
   PImage blurredImg = img.copy();

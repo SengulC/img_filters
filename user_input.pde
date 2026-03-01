@@ -1,6 +1,7 @@
 // USER INPUT VIA KEYBOARD AND MOUSE
 // SAVING/LOADING NEW IMAGE
 // CHANGING FILTERS VIA MENU CLICK
+
 int threshold = 125, grayval = 3, posterizelvl = 3;
 boolean multithreshold;
 String[] rgbvals = {"r", "g", "b"};
